@@ -1,4 +1,4 @@
-# ignore .xls, .xls, .csv, .html, .png, .docx, and .DS_Store files
+# ignore .xlsx, .xls, .csv, .html, .png, .docx, and .DS_Store files
 *.xlsx
 *.xls
 *.csv
