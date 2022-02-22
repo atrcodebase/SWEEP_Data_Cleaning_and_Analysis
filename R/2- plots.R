@@ -110,7 +110,7 @@ df_complete_approved %>%
     legend.position = "none",
     plot.title = element_text(vjust = 0.5, hjust = 0.5)
   ) +
-  scale_fill_manual(values = c("#f0b505", "#009076")) +
+  scale_fill_manual(values = c("#f0b505", "#009076", "#f0b505")) +
   labs(title = "Has any other household member left your household in the last 30 days?")
 
 ggsave(glue::glue("{output_path_graphs}module1_m2e.png"), width = 10, height = 6)
@@ -163,7 +163,7 @@ df_complete_approved %>%
     legend.position = "none",
     plot.title = element_text(vjust = 0.5, hjust = 0.5)
   ) +
-  scale_fill_manual(values = c("#f0b505", "#009076")) +
+  scale_fill_manual(values = c("#5a02ad", "#009076", "#f0b505")) +
   labs(title = "Did any new member moved in your household in the last 30 days?")
 
 ggsave(glue::glue("{output_path_graphs}module1_m2h.png"), width = 10, height = 6)
@@ -241,8 +241,8 @@ df_complete_approved %>%
   geom_text(aes(label = n), vjust = -0.1) +
   labs(x = NULL, y = "Frequency", fill = NULL, title = "Current location") +
   theme(legend.position = "bottom") +
-  scale_y_continuous(expand = c(0, 5)) +
-  scale_fill_manual(values = c("#039e2f", "#009076", "#f0b505", "#5a02ad", "#04bdb0", "#02631e"))
+  # scale_y_continuous(expand = c(0, 5)) +
+  scale_fill_manual(values = c("#039e2f", "#009076", "#f0b505", "#5a02ad", "#04bdb0", "#02631e", "#e86f05"))
 
 ggsave(glue::glue("{output_path_graphs}module1_current location.png"), width = 10, height = 6)
 
@@ -276,7 +276,7 @@ df_complete_approved %>%
     legend.position = "none",
     plot.title = element_text(vjust = 0.5, hjust = 0.5),
   ) +
-  scale_fill_manual(values = c("#f0b505", "#009076")) +
+  scale_fill_manual(values = c("#039e2f", "#009076", "#f0b505")) +
   labs(title = "When did you move?")
 
 ggsave(glue::glue("{output_path_graphs}module1_m2k.png"), width = 10, height = 6)
@@ -374,7 +374,7 @@ df_complete_approved %>%
   geom_col() +
   geom_text(aes(label = ifelse(ord < 3, glue::glue("{round(percent)}% (n={Freq})"), NA)), position = position_stack(vjust = 0.5), size = 3) +
   theme(legend.position = "bottom") +
-  scale_fill_manual(values = c("#009076", "#f0b505", "#039e2f", "#5a02ad")) +
+  scale_fill_manual(values = c("#009076", "#f0b505", "#039e2f", "#5a02ad", "#04bdb0")) +
   labs(x = NULL, y = "Percent", fill = NULL, title = "Are schools open for in the community you live in?")
 
 ggsave(glue::glue("{output_path_graphs}module1_m2n_primary_boys to m2o_upper_girls.png"), width = 10, height = 6)
@@ -772,7 +772,7 @@ df_complete_approved %>%
   mutate(Percent = round(n/sum(n)*100)) %>% 
   ggplot(aes(ymax=ymax, ymin=ymin, xmax=4, xmin=3, fill=q)) +
   geom_rect() +
-  geom_text(x=4, aes(y=labelPosition, label=glue::glue("{q}\n{Percent}% (n={n})")), size=3) +
+  geom_text(x=4, aes(y=labelPosition, label=glue::glue("{q}\n{Percent}% (n={n})")), size=2) +
   coord_polar(theta="y") +
   theme(
     panel.border = element_blank(),
@@ -785,7 +785,7 @@ df_complete_approved %>%
     legend.position = "none",
     plot.title = element_text(vjust = 0.5, hjust = 0.5)
   ) +
-  scale_fill_manual(values = c( "#009076", "#f0b505", "#5a02ad", "#04bdb0", "#02631e")) +
+  scale_fill_manual(values = c("#039e2f", "#009076", "#f0b505", "#5a02ad", "#04bdb0", "#02631e")) +
   labs(title = str_wrap("Over the last 30 days, are you usually accompanied by any other person when you go out of your compound/dwelling?", 80))
 
 ggsave(glue::glue("{output_path_graphs}module4_Q10cbsg5.png"), width = 10, height = 6)
@@ -816,7 +816,7 @@ df_complete_approved %>%
   )) %>% 
   ggplot(aes(x = question, y = percent, fill = reorder(x, ord))) +
   geom_col() +
-  geom_text(aes(label = ifelse(ord < 4, glue::glue("{round(percent)}% (n={Freq})"), NA)), position = position_stack(vjust = 0.5), size = 3) +
+  geom_text(aes(label = ifelse(ord < 3, glue::glue("{round(percent)}% (n={Freq})"), NA)), position = position_stack(vjust = 0.5), size = 3) +
   theme(legend.position = "bottom") +
   scale_fill_manual(values = c( "#009076", "#f0b505", "#04bdb0", "#02631e", "#5a02ad")) +
   labs(x = NULL, y = "Percent", fill = NULL, title = "In your mohalla, over the last 30 days: Are women able to:")
@@ -1072,10 +1072,4 @@ response_status %>%
   labs(x = NULL, y = "Percent")
 
 ggsave(glue::glue("{output_path_graphs}reasons_for_incomplete_interviews.png"), width = 10, height = 6)
-
-  
-
-  
-
-
 
