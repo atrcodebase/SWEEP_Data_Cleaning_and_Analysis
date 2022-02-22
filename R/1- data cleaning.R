@@ -3,7 +3,8 @@ remove_columns <- c("subscriberid", "simid", "devicephonenum", "instance_time", 
                     "phone_call_log", "phone_call_duration", "collect_phone_app", "call_time",
                     "reschedule", "reschedule_full", "reschedule_no_ans",  "call_respondent",
                     "device_info", "address", "users", "pub_to_users", "call_datetime", 
-                    "new_sortby", "num_calls", "review_status", "needs_review", "userid", "AA1",
+                    "new_sortby", "num_calls", "Please_Select_The_Qa_Status_Of_The_Survey",
+                    "needs_review", "userid", "AA1",
                     "AA2", "AA3", "AA4", "AA5", "end_time",
                     "qa", "instanceID", "instanceName", "formdef_version", "review_quality",
                     "review_comments", "review_corrections",
@@ -12,10 +13,9 @@ remove_columns <- c("subscriberid", "simid", "devicephonenum", "instance_time", 
                     "wfws12_Own", "wfws12_place_", "wfws12_at", "wfws12_home"
                     )
 
-# sum(!remove_columns %in% colnames(df))
-# count(df, Please_Select_The_Qa_Status_Of_The_Survey)
-# count(df, phone_response_short)
-# count(df, phone_response_short, Please_Select_The_Qa_Status_Of_The_Survey)
+if (sum(!remove_columns %in% colnames(df)) > 0 ) {
+  remove_columns <- remove_columns[remove_columns %in% colnames(df)]
+}
 
 df <- select(df, -remove_columns)
 df <- select(df, -c(grep("_label", colnames(df))-1))
@@ -41,8 +41,6 @@ for (rowi in 1:nrow(correction_log)){
   df[df$KEY == uuid_i, var_i] <- new_i
 }
 
-df_complete_approved <- filter(df, phone_response_short == "Complete" & Please_Select_The_Qa_Status_Of_The_Survey == "Approved")
-
-
+df_complete_approved <- filter(df, phone_response_short == "Complete" & review_status == "APPROVED")
 
 
