@@ -9,7 +9,9 @@ remove_columns <- c("deviceid", "subscriberid", "simid", "devicephonenum", "user
                     "instanceID", "instanceName", "formdef_version"
                     )
 
-# sum(!remove_columns %in% colnames(backcheck))
+if (sum(!remove_columns %in% colnames(backcheck)) > 0 ) {
+  remove_columns <- remove_columns[remove_columns %in% colnames(backcheck)]
+}
 
 backcheck <- select(backcheck, -remove_columns)
 backcheck <- select(backcheck, -c(grep("_label", colnames(backcheck))-1))
