@@ -60,7 +60,12 @@ attempts_vs_complete_interviews <- df %>%
                   x = ifelse(is.na(x), 0, x)
   ))
 
-#### export tables -----------
+
+approved_vs_rejected_cases <- df %>% 
+  filter(phone_response_short == "Complete") %>% 
+  group_by(province = database_province) %>% 
+  count(review_status) %>% 
+  pivot_wider(names_from = province, values_from = n, values_fill = 0)
 
 
 
