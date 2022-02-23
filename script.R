@@ -24,7 +24,7 @@ library(glue)
 source("R/functions/Analysis_double_disagg.R")
 
 # global variables --------------------------------------------------------------------
-week <- "week3"
+week <- "all_weeks"
 date <- Sys.Date()
 data_path <- glue::glue("input/raw_data/SWEEP_CBSG _Monitoring_Actual_Form_WIDE_{week}.xlsx")
 backcheck_path <- glue::glue("input/raw_data/SWEEP Callback-Backchecks_WIDE_{week}.xlsx")
@@ -87,7 +87,7 @@ if (nrow(choice_label_unavailable) > 0 ) {
   writexl::write_xlsx(choice_label_unavailable, glue::glue("output/{week}/log.xlsx"))
 }
 
-## check whether the callbacks/backchecks are conducted with complete cases only
+## check whether the callbacks/backchecks are conducted with completed cases only
 backcheck_casids <- unique(backcheck_complete$caseid)
 df_complete_approved_caseids <- unique(df_complete_approved$caseid)
 backcheck_casids[!backcheck_casids %in% df_complete_approved_caseids]
