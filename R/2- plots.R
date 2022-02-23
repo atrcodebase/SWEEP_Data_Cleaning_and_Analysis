@@ -8,7 +8,7 @@ df_complete_approved %>%
   scale_y_continuous(expand = c(0, 5)) +
   labs(x = NULL, y = "Percent")
 
-ggsave(glue::glue("{output_path_graphs}module1_m2a.png"), width = 10, height = 6)
+ggsave(glue::glue("{output_path_graphs}module1_m2a.png"), width = 12, height = 6)
 
 df_complete_approved %>% 
   count(Label = m2b, name = "fraction") %>% 
@@ -236,13 +236,14 @@ df_complete_approved %>%
   group_by(District) %>% 
   mutate(duplicate = n()) %>% 
   mutate(District = ifelse(duplicate > 1, glue::glue("{District}\n({Province})"), District)) %>% 
-  ggplot(aes(x = reorder(District, -n), y = n, fill = Province)) +
+  ggplot(aes(x = reorder(District, n), y = n, fill = Province)) +
   geom_bar(stat = "identity") +
-  geom_text(aes(label = n), vjust = -0.1) +
+  coord_flip() +
+  geom_text(aes(label = n), hjust = -0.1) +
   labs(x = NULL, y = "Frequency", fill = NULL, title = "Current location") +
   theme(legend.position = "bottom") +
   # scale_y_continuous(expand = c(0, 5)) +
-  scale_fill_manual(values = c("#039e2f", "#009076", "#f0b505", "#5a02ad", "#04bdb0", "#02631e", "#e86f05"))
+  scale_fill_manual(values = c("#039e2f", "#009076", "#f0b505", "#5a02ad", "#04bdb0", "#02631e", "#e86f05", "skyblue"))
 
 ggsave(glue::glue("{output_path_graphs}module1_current location.png"), width = 10, height = 6)
 
@@ -311,7 +312,7 @@ df_complete_approved %>%
     legend.position = "none",
     plot.title = element_text(vjust = 0.5, hjust = 0.5)
   ) +
-  scale_fill_manual(values = c("#039e2f", "#009076", "#f0b505")) +
+  scale_fill_manual(values = c("#039e2f", "#009076", "#f0b505", "skyblue")) +
   labs(title = "Where are you currently living?")
 
 ggsave(glue::glue("{output_path_graphs}module1_m2l.png"), width = 10, height = 6)
@@ -449,7 +450,7 @@ df_complete_approved %>%
   labs(x = NULL, y = "Percent", fill = NULL, title = "What are the reasons some or all the girls have not gone back to school?") +
   scale_y_continuous(expand = c(0, 10))
 
-ggsave(glue::glue("{output_path_graphs}module1_m2r.png"), width = 10, height = 6)
+ggsave(glue::glue("{output_path_graphs}module1_m2r.png"), width = 12, height = 6)
 
 df_complete_approved %>% 
   select(starts_with("m2rboy_"), -m2rboy_other) %>% 
@@ -491,7 +492,7 @@ df_complete_approved %>%
   labs(x = NULL, y = "Percent", fill = NULL, title = "What are the reasons some or all the boys have not gone back to school?") +
   scale_y_continuous(expand = c(0, 10))
 
-ggsave(glue::glue("{output_path_graphs}module1_m2rboy.png"), width = 10, height = 6)
+ggsave(glue::glue("{output_path_graphs}module1_m2rboy.png"), width = 12, height = 6)
 
 df_complete_approved %>% 
   select(m2s1:m2s5) %>% 
@@ -518,7 +519,7 @@ df_complete_approved %>%
   geom_col() +
   geom_text(aes(label = ifelse(ord < 3, glue::glue("{percent}%\n(n={Freq})"), NA)), position = position_stack(vjust = 0.5), size = 3) +
   theme(legend.position = "bottom") +
-  scale_fill_manual(values = c("#009076", "#f0b505", "#039e2f")) +
+  scale_fill_manual(values = c("#009076", "#f0b505", "#039e2f", "skyblue")) +
   labs(x = NULL, y = "Percent", fill = NULL, title = "Source of income")
 
 ggsave(glue::glue("{output_path_graphs}module1_m2s1 to m2s5.png"), width = 10, height = 6)
@@ -557,7 +558,7 @@ df_complete_approved %>%
   labs(x = NULL, y = "Percent", fill = NULL, title = "What are the reasons some or all the boys have not gone back to school?") +
   scale_y_continuous(expand = c(0, 5))
 
-ggsave(glue::glue("{output_path_graphs}module1_Q2t.png"), width = 10, height = 6)
+ggsave(glue::glue("{output_path_graphs}module1_Q2t.png"), width = 13, height = 6)
 
 df_complete_approved %>% 
   count(Label = m4a, name = "fraction") %>% 
@@ -625,7 +626,7 @@ df_complete_approved %>%
     legend.position = "none",
     plot.title = element_text(vjust = 0.5, hjust = 0.5)
   ) +
-  scale_fill_manual(values = c("#009076", "#f0b505", "#039e2f")) +
+  scale_fill_manual(values = c("#009076", "#f0b505", "#039e2f", "skyblue")) +
   labs(title = "During the last 30 days did you have enough food for your household?")
 
 ggsave(glue::glue("{output_path_graphs}module2_Q4c.png"))
@@ -756,7 +757,7 @@ df_complete_approved %>%
     legend.position = "none",
     plot.title = element_text(vjust = 0.5, hjust = 0.5)
   ) +
-  scale_fill_manual(values = c("#f0b505", "#039e2f", "#009076")) +
+  scale_fill_manual(values = c("skyblue", "#f0b505", "#039e2f", "#009076")) +
   labs(title = str_wrap("In the past 30 days, was any asset that you used in your business sold to purchase food or in response to any other emergency of the household?", 100))
 
 ggsave(glue::glue("{output_path_graphs}module3_barrier5.png"), width = 10, height = 6)
@@ -830,7 +831,7 @@ df_complete_approved %>%
       mutate(percent = round(Freq/sum(Freq)*100))
   ) %>% 
   data.table::rbindlist(idcol = "question") %>% 
-  filter(x == 1) %>% 
+  filter(x == 1) %>%
   mutate(question = case_when(
     question == "Q10cbsg6_0" ~ "Self",
     question == "Q10cbsg6_1" ~ "Spouse",
@@ -841,6 +842,7 @@ df_complete_approved %>%
     question == "Q10cbsg6_6" ~ "Other female household member",
     question == "Q10cbsg6_7" ~ "Male relative outside of household",
     question == "Q10cbsg6_8" ~ "Female relative outside of household",
+    question == "Q10cbsg6_9" ~ "Male non-relative (adult)",
     question == "Q10cbsg6_10" ~ "Female non-relative"
   )) %>% 
   mutate(question = str_wrap(question, 15)) %>% 
@@ -1044,7 +1046,7 @@ df_complete_approved %>%
   scale_fill_manual(values = c("#039e2f", "#04bdb0", "#009076", "#02631e", "#f0b505", "#5a02ad", "#e86f05")) +
   labs(x = NULL, y = "Percent", fill = NULL, title = "How much would your opinion be considered in the final decision if your household needs to decide on the following things:")
 
-ggsave(glue::glue("{output_path_graphs}module7_Q10h2 to Q10h9.png"), width = 10, height = 6)
+ggsave(glue::glue("{output_path_graphs}module7_Q10h2 to Q10h9.png"), width = 11, height = 6)
 
 response_status <- full_join(
   df %>% 
